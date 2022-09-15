@@ -26,24 +26,35 @@ const CartItem: React.FC<CartItemProps> = (props) => {
           objectFit: "cover",
         }}
       />
-      <div className="me-auto">
-        <div>
-          {itemInfo.name}{" "}
-          {quantity > 1 && (
-            <span className="text-muted" style={{ fontSize: ".65rem" }}>
-              x{quantity}
-            </span>
-          )}
+
+      <Stack gap={2}>
+        <div className="text-center">
+          <div>
+            {itemInfo.name}{" "}
+            {quantity > 1 && (
+              <span style={{ fontSize: ".9rem" }}>x{quantity}</span>
+            )}
+          </div>
+          <div className="text-muted" style={{ fontSize: ".75rem" }}>
+            {formatCurrency(itemInfo.price)}
+          </div>
         </div>
-        <div className="text-muted" style={{ fontSize: ".75rem" }}>
-          {formatCurrency(itemInfo.price)}
+        <div className="d-flex align-items-center justify-content-center">
+          <Button className="m-2" onClick={() => decreaseCartQuantity(id)}>
+            -
+          </Button>
+          <Button className="m-2" onClick={() => increaseCartQuantity(id)}>
+            +
+          </Button>
+          <Button
+            className="m-2"
+            variant="danger"
+            onClick={() => removeFromCart(id)}
+          >
+            x
+          </Button>
         </div>
-      </div>
-      <Button onClick={() => decreaseCartQuantity(id)}>-</Button>
-      <Button onClick={() => increaseCartQuantity(id)}>+</Button>
-      <Button variant="danger" onClick={() => removeFromCart(id)}>
-        x
-      </Button>
+      </Stack>
     </Stack>
   );
 };
