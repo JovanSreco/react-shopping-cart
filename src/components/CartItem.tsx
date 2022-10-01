@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Stack, Button } from "react-bootstrap";
+import { Stack, Button, Spinner } from "react-bootstrap";
 import useShoppingCart from "../context/ShoppingCartContext";
 import formatCurrency from "../utilities/formatCurrency";
 import useFetchStoreItems from "../hooks/useFetchStoreItems";
@@ -21,6 +21,10 @@ const CartItem: React.FC<CartItemProps> = (props) => {
     useShoppingCart();
   const itemInfo = storeItems.find((item) => item.id === id);
   if (itemInfo == null) return null;
+
+  if (error) {
+    return <p className="text-center">{error}</p>;
+  }
 
   return (
     <Stack direction="horizontal" gap={2}>

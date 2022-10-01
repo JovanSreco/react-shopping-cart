@@ -1,15 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Spinner } from "react-bootstrap";
 import StoreItem from "../components/StoreItem";
 import DUMMY from "../data/items.json";
 import useFetchStoreItems from "../hooks/useFetchStoreItems";
-
-type storeItemType = {
-  id: number;
-  imgUrl: string;
-  name: string;
-  price: number;
-};
 
 const Store: React.FC = () => {
   const { sendRequest, storeItems, isLoading, error } = useFetchStoreItems();
@@ -23,7 +16,14 @@ const Store: React.FC = () => {
   }
 
   if (isLoading && !error) {
-    return <p className="text-center">Loading...</p>;
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "10rem", width: "100%" }}
+      >
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
   }
 
   return (

@@ -10,13 +10,18 @@ type ShoppingCartProps = {
 };
 
 const ShoppingCart: React.FC<ShoppingCartProps> = (props) => {
-  const { sendRequest, storeItems, isLoading, error } = useFetchStoreItems();
-
+  const { sendRequest, storeItems, error } = useFetchStoreItems();
+  const bla = storeItems;
   useEffect(() => {
     sendRequest();
   }, [sendRequest]);
 
   const { closeCart, cartItems } = useShoppingCart();
+
+  if (error) {
+    return <p className="text-center">{error}</p>;
+  }
+
   return (
     <Offcanvas show={props.isOpen} onHide={closeCart} placement="end">
       <Offcanvas.Header closeButton>
@@ -31,7 +36,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = (props) => {
             Total{" "}
             {formatCurrency(
               cartItems.reduce((total, cartItem) => {
-                const item = storeItems.find((item) => item.id === cartItem.id);
+                const item = bla.find((item) => item.id === cartItem.id);
                 return total + (item?.price || 0) * cartItem.quantity;
               }, 0)
             )}

@@ -27,7 +27,6 @@ const useFetchStoreItems = () => {
         arr.push(data[key]);
       }
 
-      console.log(arr);
       setStoreItems(arr);
       setIsLoading(false);
     } catch (error: any) {
