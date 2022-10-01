@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import StoreItem from "../components/StoreItem";
-import DUMMY from "../data/items.json";
 import useFetchStoreItems from "../hooks/useFetchStoreItems";
 
 const Store: React.FC = () => {

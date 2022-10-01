@@ -1,35 +1,32 @@
-import { useEffect } from "react";
 import { Stack, Button, Spinner } from "react-bootstrap";
 import useShoppingCart from "../context/ShoppingCartContext";
 import formatCurrency from "../utilities/formatCurrency";
-import useFetchStoreItems from "../hooks/useFetchStoreItems";
 
-type CartItemProps = {
+type Props = {
   id: number;
+  imgUrl: string;
+  name: string;
+  price: number;
   quantity: number;
+  removeFromCart: (id: number) => void;
+  decreaseCartQuantity: (id: number) => void;
+  increaseCartQuantity: (id: number) => void;
 };
 
-const CartItem: React.FC<CartItemProps> = (props) => {
-  const { sendRequest, storeItems, isLoading, error } = useFetchStoreItems();
-
-  useEffect(() => {
-    sendRequest();
-  }, [sendRequest]);
-
-  const { id, quantity } = props;
-  const { decreaseCartQuantity, increaseCartQuantity, removeFromCart } =
-    useShoppingCart();
-  const itemInfo = storeItems.find((item) => item.id === id);
-  if (itemInfo == null) return null;
-
-  if (error) {
-    return <p className="text-center">{error}</p>;
-  }
-
+const CartItem: React.FC<Props> = ({
+  id,
+  imgUrl,
+  name,
+  price,
+  quantity,
+  increaseCartQuantity,
+  decreaseCartQuantity,
+  removeFromCart,
+}) => {
   return (
     <Stack direction="horizontal" gap={2}>
       <img
-        src={itemInfo.imgUrl}
+        src={imgUrl}
         className="rounded-2"
         style={{
           width: "150px",
@@ -41,13 +38,13 @@ const CartItem: React.FC<CartItemProps> = (props) => {
       <Stack gap={2}>
         <div className="text-center">
           <div>
-            {itemInfo.name}{" "}
+            {name}{" "}
             {quantity > 1 && (
               <span style={{ fontSize: ".9rem" }}>x{quantity}</span>
             )}
           </div>
           <div className="text-muted" style={{ fontSize: ".75rem" }}>
-            {formatCurrency(itemInfo.price)}
+            {formatCurrency(price)}
           </div>
         </div>
         <div className="d-flex align-items-center justify-content-center">

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { ShoppingCartProvider } from "./context/ShoppingCartContext";
