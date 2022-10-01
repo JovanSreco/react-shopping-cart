@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { Stack, Button } from "react-bootstrap";
 import useShoppingCart from "../context/ShoppingCartContext";
-import storeItems from "../data/items.json";
 import formatCurrency from "../utilities/formatCurrency";
+import useFetchStoreItems from "../hooks/useFetchStoreItems";
 
 type CartItemProps = {
   id: number;
@@ -9,6 +10,12 @@ type CartItemProps = {
 };
 
 const CartItem: React.FC<CartItemProps> = (props) => {
+  const { sendRequest, storeItems, isLoading, error } = useFetchStoreItems();
+
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
+
   const { id, quantity } = props;
   const { decreaseCartQuantity, increaseCartQuantity, removeFromCart } =
     useShoppingCart();

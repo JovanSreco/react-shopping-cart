@@ -1,14 +1,21 @@
+import { useEffect } from "react";
 import { Offcanvas, Stack } from "react-bootstrap";
 import useShoppingCart from "../context/ShoppingCartContext";
+import useFetchStoreItems from "../hooks/useFetchStoreItems";
 import formatCurrency from "../utilities/formatCurrency";
 import CartItem from "./CartItem";
-import storeItems from "../data/items.json";
 
 type ShoppingCartProps = {
   isOpen: Boolean;
 };
 
 const ShoppingCart: React.FC<ShoppingCartProps> = (props) => {
+  const { sendRequest, storeItems, isLoading, error } = useFetchStoreItems();
+
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
+
   const { closeCart, cartItems } = useShoppingCart();
   return (
     <Offcanvas show={props.isOpen} onHide={closeCart} placement="end">

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import StoreItem from "../components/StoreItem";
 import DUMMY from "../data/items.json";
+import useFetchStoreItems from "../hooks/useFetchStoreItems";
 
 type storeItemType = {
   id: number;
@@ -11,37 +12,11 @@ type storeItemType = {
 };
 
 const Store: React.FC = () => {
-  const [storeItems, setStoreItems] = useState<storeItemType[]>([]);
-  const [isLoading, setIsLoading] = useState<Boolean>(true);
-  const [error, setError] = useState(null);
-
-  const fetchStoreItemsData = useCallback(async () => {
-    try {
-      const response = await fetch(
-        "https://react-http-4d4cd-default-rtdb.firebaseio.com/storeItems.json"
-      );
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const data = await response.json();
-      let arr = [];
-      for (const key in data) {
-        arr.push(data[key]);
-      }
-
-      console.log(arr);
-      setStoreItems(arr);
-      setIsLoading(false);
-    } catch (error: any) {
-      setError(error);
-      setIsLoading(false);
-    }
-  }, []);
+  const { sendRequest, storeItems, isLoading, error } = useFetchStoreItems();
 
   useEffect(() => {
-    fetchStoreItemsData();
-  }, [fetchStoreItemsData]);
+    sendRequest();
+  }, [sendRequest]);
 
   if (error) {
     return <p className="text-center">{error}</p>;
